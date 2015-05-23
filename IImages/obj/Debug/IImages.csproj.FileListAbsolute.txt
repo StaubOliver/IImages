@@ -1,0 +1,15 @@
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\bin\Debug\IImages.exe.config
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\bin\Debug\IImages.exe
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\bin\Debug\IImages.pdb
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\obj\Debug\IImages.csprojResolveAssemblyReference.cache
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\obj\Debug\IImages.Form1.resources
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\obj\Debug\IImages.Properties.Resources.resources
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\obj\Debug\IImages.csproj.GenerateResource.Cache
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\obj\Debug\IImages.exe
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\obj\Debug\IImages.pdb
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\bin\Debug\MongoDB.Bson.dll
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\bin\Debug\MongoDB.Driver.Core.dll
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\bin\Debug\MongoDB.Driver.dll
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\bin\Debug\MongoDB.Bson.xml
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\bin\Debug\MongoDB.Driver.xml
+c:\users\olivier\documents\visual studio 2013\Projects\IImages\IImages\bin\Debug\ExifLib.dll
