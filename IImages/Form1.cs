@@ -12,6 +12,7 @@ using MongoDB.Bson;
 using System.Collections.Concurrent;
 using System.IO;
 using ExifLib;
+
 using System.Collections.ObjectModel;
 
 namespace IImages
@@ -21,6 +22,9 @@ namespace IImages
 
         List<image> ajout = new List<image>();
         List<image> ajoutSelection = new List<image>();
+
+        List<image> search = new List<image>();
+        List<image> searchSelection = new List<image>();
         
         //Accès à la base de données
         MongoClient client;
@@ -32,19 +36,41 @@ namespace IImages
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
             client = new MongoClient("mongodb://localhost:27017");
             database = client.GetDatabase("iimages");
             iimages = database.GetCollection<BsonDocument>("iimages");
-
+            long x = await iimages.CountAsync(new BsonDocument());
+            label5.Text = x.ToString() + " éléments dans le catalogue";
 
             tabControl1.SelectedIndex = 1;
             labelAjoutDate.Text = "";
             labelAjoutNom.Text = "";
 
             status.Text = "Connecté";
+
+            //on affiche déja quelques images venant de la base de données
+            var filter = new BsonDocument();
+            var cursor = await iimages.FindAsync(filter);
+
+            await cursor.MoveNextAsync();
+            
+                var batch = cursor.Current;
+                foreach (var document in batch)
+                {
+                    search.Add(MongoDB.Bson.Serialization.BsonSerializer.Deserialize<image>(document));
+                }
+            
+            foreach (image im in search)
+            {
+                im.generate_thumb();
+                imageListSearch.Images.Add(im.path, im.thumb);
+                listViewSearch.Items.Add(im.path, Path.GetFileName(im.path), im.path);
+            }
         }
+
+        #region Ajout
 
         private void searchParcourir_Click(object sender, EventArgs e)
         {
@@ -148,6 +174,10 @@ namespace IImages
                 iimages.InsertOneAsync(im.doc);
             }
             status.Text = "Envoyés !";
+            ajoutSelection.Clear();
+            ajout.Clear();
+            imageListajout.Images.Clear();
+            listViewAjout.Items.Clear();
         }
 
         private void tableLayoutPanel5_Paint(object sender, PaintEventArgs e)
@@ -322,8 +352,56 @@ namespace IImages
             }
         }
 
+        #endregion
+
+        
 
 
+        #region Search
+
+        private void listViewSearch_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            var selection = listViewSearch.SelectedItems;
+            if (selection.Count == 1)
+            {
+                searchSelection.Clear();
+                foreach (ListViewItem item in selection)
+                {
+                    searchSelection.Add(search.Find(i => i.path == item.ImageKey));
+                }
+            }
+            if (pictureBox2.Image != null)
+            {
+                pictureBox2.Image.Dispose();
+            }
+            pictureBox2.Image = Image.FromFile(searchSelection.First().path);
+        }
+
+
+
+        #endregion
+
+        private void listViewSearch_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            /*
+            var selection = listViewSearch.SelectedItems;
+            if (selection.Count == 1)
+            {
+                searchSelection.Clear();
+                foreach (ListViewItem item in selection)
+                {
+                    searchSelection.Add(search.Find(i => i.path == item.ImageKey));
+                }
+            }
+           
+            if (pictureBox2.Image != null)
+            {
+                pictureBox2.Image.Dispose();
+            }
+            pictureBox2.Image = Image.FromFile(searchSelection.First().path);
+             * */
+        }
+        
 
     }
 }

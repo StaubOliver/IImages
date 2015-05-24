@@ -12,7 +12,7 @@ namespace IImages
 {
     class image
     {
-        public int id { get; set; }
+        public ObjectId id { get; set; }
         public string path { get; set; }
         public DateTime date { get; set; }
         public int rating { get; set; }
@@ -37,7 +37,7 @@ namespace IImages
             generate_document();
         }
 
-        public image(int i, string p, DateTime d, int r, List<string> t, List<string> per, List<string> c)
+        public image(ObjectId i, string p, DateTime d, int r, List<string> t, List<string> per, List<string> c)
         {
             this.id = i;
             this.path = p;
@@ -63,6 +63,13 @@ namespace IImages
                 { "personnes", _personnes },
                 { "couleurs", _couleurs }
             };
+        }
+
+        public void generate_thumb()
+        {
+            Image img = new Bitmap(path);
+            this.thumb = img.GetThumbnailImage(100, 100, null, IntPtr.Zero);
+            img.Dispose();
         }
 
         
