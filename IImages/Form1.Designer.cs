@@ -67,6 +67,7 @@
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.label9 = new System.Windows.Forms.Label();
             this.numericUpDownSearch = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxAbove = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
@@ -89,7 +90,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.checkBoxAbove = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabAdd.SuspendLayout();
@@ -575,6 +575,17 @@
             0});
             this.numericUpDownSearch.ValueChanged += new System.EventHandler(this.numericUpDownSearch_ValueChanged);
             // 
+            // checkBoxAbove
+            // 
+            this.checkBoxAbove.AutoSize = true;
+            this.checkBoxAbove.Dock = System.Windows.Forms.DockStyle.Top;
+            this.checkBoxAbove.Location = new System.Drawing.Point(92, 34);
+            this.checkBoxAbove.Name = "checkBoxAbove";
+            this.checkBoxAbove.Size = new System.Drawing.Size(84, 17);
+            this.checkBoxAbove.TabIndex = 2;
+            this.checkBoxAbove.Text = "Au-dessus";
+            this.checkBoxAbove.UseVisualStyleBackColor = true;
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
@@ -668,7 +679,7 @@
             this.tableLayoutPanel11.ColumnCount = 3;
             this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.99999F));
             this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.00001F));
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 101F));
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 102F));
             this.tableLayoutPanel11.Controls.Add(this.label10, 0, 2);
             this.tableLayoutPanel11.Controls.Add(this.label11, 1, 2);
             this.tableLayoutPanel11.Controls.Add(this.label12, 0, 0);
@@ -709,7 +720,7 @@
             this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label11.Location = new System.Drawing.Point(176, 60);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(168, 30);
+            this.label11.Size = new System.Drawing.Size(167, 30);
             this.label11.TabIndex = 1;
             this.label11.Text = "Personnes";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -777,7 +788,7 @@
             this.richTextBoxSearchPersonnes.Location = new System.Drawing.Point(176, 93);
             this.richTextBoxSearchPersonnes.Name = "richTextBoxSearchPersonnes";
             this.tableLayoutPanel11.SetRowSpan(this.richTextBoxSearchPersonnes, 2);
-            this.richTextBoxSearchPersonnes.Size = new System.Drawing.Size(168, 68);
+            this.richTextBoxSearchPersonnes.Size = new System.Drawing.Size(167, 68);
             this.richTextBoxSearchPersonnes.TabIndex = 6;
             this.richTextBoxSearchPersonnes.Text = "";
             this.richTextBoxSearchPersonnes.Validating += new System.ComponentModel.CancelEventHandler(this.richTextBoxSearchPersonnes_Validating);
@@ -862,17 +873,6 @@
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "no_image.jpg");
-            // 
-            // checkBoxAbove
-            // 
-            this.checkBoxAbove.AutoSize = true;
-            this.checkBoxAbove.Dock = System.Windows.Forms.DockStyle.Top;
-            this.checkBoxAbove.Location = new System.Drawing.Point(92, 34);
-            this.checkBoxAbove.Name = "checkBoxAbove";
-            this.checkBoxAbove.Size = new System.Drawing.Size(84, 17);
-            this.checkBoxAbove.TabIndex = 2;
-            this.checkBoxAbove.Text = "Au-dessus";
-            this.checkBoxAbove.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 

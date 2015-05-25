@@ -13,3 +13,18 @@ C:\Users\Olivier\documents\visual studio 2013\Projects\IImages\IImages\obj\Debug
 C:\Users\Olivier\documents\visual studio 2013\Projects\IImages\IImages\obj\Debug\IImages.exe
 C:\Users\Olivier\documents\visual studio 2013\Projects\IImages\IImages\obj\Debug\IImages.pdb
 C:\Users\Olivier\documents\visual studio 2013\Projects\IImages\IImages\obj\Debug\IImages.csprojResolveAssemblyReference.cache
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\bin\Debug\IImages.exe.config
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\obj\Debug\IImages.exe
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\obj\Debug\IImages.pdb
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\bin\Debug\IImages.exe
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\bin\Debug\IImages.pdb
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\bin\Debug\ExifLib.dll
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\bin\Debug\MongoDB.Bson.dll
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\bin\Debug\MongoDB.Driver.Core.dll
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\bin\Debug\MongoDB.Driver.dll
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\bin\Debug\MongoDB.Bson.xml
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\bin\Debug\MongoDB.Driver.xml
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\obj\Debug\IImages.csprojResolveAssemblyReference.cache
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\obj\Debug\IImages.Form1.resources
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\obj\Debug\IImages.Properties.Resources.resources
+C:\Users\Olivier\Documents\GitHub\IImages\IImages\obj\Debug\IImages.csproj.GenerateResource.Cache
