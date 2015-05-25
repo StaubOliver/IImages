@@ -19,13 +19,15 @@ namespace IImages
 {
     public partial class Form1 : Form
     {
-
+        //Variables Ajout
         List<image> ajout = new List<image>();
         List<image> ajoutSelection = new List<image>();
 
+        //Variables Search
         List<image> search = new List<image>();
         List<image> searchSelection = new List<image>();
-        
+        BsonDocument currentFilter = new BsonDocument();
+
         //Accès à la base de données
         MongoClient client;
         MongoDB.Driver.IMongoDatabase database;
@@ -36,26 +38,44 @@ namespace IImages
             InitializeComponent();
         }
 
-        private async void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            client = new MongoClient("mongodb://localhost:27017");
-            database = client.GetDatabase("iimages");
-            iimages = database.GetCollection<BsonDocument>("iimages");
-            long x = await iimages.CountAsync(new BsonDocument());
-            label5.Text = x.ToString() + " éléments dans le catalogue";
-
             tabControl1.SelectedIndex = 1;
             labelAjoutDate.Text = "";
             labelAjoutNom.Text = "";
 
             status.Text = "Connecté";
+            
+            refresh();
+        }
 
-            //on affiche déja quelques images venant de la base de données
-            var filter = new BsonDocument();
-            var cursor = await iimages.FindAsync(filter);
+        public async void refresh()
+        {
+            //Cleanning
+            imageListSearch.Images.Clear();
+            listViewSearch.Items.Clear();
+            search.Clear();
+            searchSelection.Clear();
 
             
+            //connection à la base
+            client = new MongoClient("mongodb://localhost:27017");
+            database = client.GetDatabase("iimages");
+            iimages = database.GetCollection<BsonDocument>("iimages");
 
+            long x = await iimages.CountAsync(new BsonDocument());
+            label5.Text = x.ToString() + " éléments dans le catalogue";
+
+            //creation du filtre
+            var builder = Builders<BsonDocument>.Filter;
+            var filter = builder.Eq("rating",(int)numericUpDownSearch.Value);
+            filter = builder.And(filter, builder.Gt("rating",(int)numericUpDownSearch.Value));
+            
+
+            //requete
+            var cursor = await iimages.FindAsync(filter);
+           
+            //traitement des résultats
             while (await cursor.MoveNextAsync())
             {
                 var batch = cursor.Current;
@@ -64,13 +84,17 @@ namespace IImages
                     search.Add(MongoDB.Bson.Serialization.BsonSerializer.Deserialize<image>(document));
                 }
             }
+
+            //affichage des résultats
             foreach (image im in search)
             {
-                im.generate_thumb();
+                im.load_thumb();
                 imageListSearch.Images.Add(im.path, im.thumb);
                 listViewSearch.Items.Add(im.path, Path.GetFileName(im.path), im.path);
             }
             label14.Text = search.Count() + " résultats";
+
+            if (search.Count() == 0) { label14.Text = "Pas de résultats pour cette recherche"; }
         }
 
         #region Ajout
@@ -102,30 +126,40 @@ namespace IImages
                                          fileName =>
                                          {
                                              // On charge l'image
-                                             Image img = new Bitmap(fileName);
+                                             //Image img = new Bitmap(fileName);
 
                                              //création de l'objet image correspondant
                                              var newImg = new image(fileName);
                                              
                                              //crétation de la vignette
-                                             newImg.thumb = img.GetThumbnailImage(PictureWidth,PictureWidth,null,IntPtr.Zero);
+                                             //newImg.thumb = img.GetThumbnailImage(PictureWidth,PictureWidth,null,IntPtr.Zero);
                                              
                                              //lecture de la date de prise de vue de l'image
-                                             using (ExifReader reader = new ExifReader(fileName))
+                                             try
                                              {
-                                                 // Extract the tag data using the ExifTags enumeration
-                                                 DateTime datePictureTaken;
-                                                 if (reader.GetTagValue<DateTime>(ExifTags.DateTimeDigitized, out datePictureTaken))
+                                                 using (ExifReader reader = new ExifReader(fileName))
                                                  {
-                                                     // Do whatever is required with the extracted information
-                                                     newImg.date = datePictureTaken;
-                                                     newImg.generate_document();
+                                                     // Extract the tag data using the ExifTags enumeration
+                                                     if (reader != null)
+                                                     {
+                                                         DateTime datePictureTaken;
+                                                         if (reader.GetTagValue<DateTime>(ExifTags.DateTimeDigitized, out datePictureTaken))
+                                                         {
+                                                             // Do whatever is required with the extracted information
+                                                             newImg.date = datePictureTaken;
+                                                             newImg.generate_document();
+                                                         }
+                                                     }
                                                  }
+                                             }
+                                             catch (Exception Ex)
+                                             {
+                                                 newImg.date = DateTime.Now;
                                              }
                                              ajout.Add(newImg);
                                              images.Add(newImg);
 
-                                             img.Dispose();
+                                             //img.Dispose();
                                          });
 
                         return images;
@@ -173,6 +207,8 @@ namespace IImages
                 }
                 System.IO.File.Copy(im.path, outfolder + outfilename, true);
                 im.path = outfolder + outfilename;
+                im.path_tb = outfolder + Path.GetFileNameWithoutExtension(outfilename) + "_tb.jpg"; 
+                im.Save_thumb();
                 im.generate_document();
                 iimages.InsertOneAsync(im.doc);
             }
@@ -424,6 +460,9 @@ namespace IImages
                 numericUpDownSearchEdit.Enabled = true;
                 richTextBoxSearchPersonnes.Enabled = true;
                 richTextBoxSearchTags.Enabled = true;
+                buttonSearchCopy.Enabled = true;
+                buttonSearchOpen.Enabled = true;
+                buttonSearchSuppr.Enabled = true;
 
                 if (pictureBox2.Image != null)
                 {
@@ -438,9 +477,11 @@ namespace IImages
                 numericUpDownSearchEdit.Enabled = false;
                 richTextBoxSearchPersonnes.Enabled = false;
                 richTextBoxSearchTags.Enabled = false;
+                buttonSearchCopy.Enabled = false;
+                buttonSearchOpen.Enabled = false;
+                buttonSearchSuppr.Enabled = false;
                 numericUpDownSearchEdit.Value = 0;
                 label12.Text = "Aucune photo sélectionnée";
-                pictureBox2.Image.Dispose();
             }
 
         }
@@ -504,6 +545,48 @@ namespace IImages
                 }
             }
         }
+
+        private void buttonSearchOpen_Click(object sender, EventArgs e)
+        {
+            if (searchSelection.Count == 1)
+            {
+                File.Open(searchSelection.First().path, FileMode.Open,FileAccess.Read);
+            }
+        }
+
+        private void buttonSearchCopy_Click(object sender, EventArgs e)
+        {
+            if (searchSelection.Count == 1)
+            {
+                System.Collections.Specialized.StringCollection paths = new System.Collections.Specialized.StringCollection();
+                paths.Add(searchSelection.First().path);
+                Clipboard.SetFileDropList(paths);
+                status.Text = Path.GetFileNameWithoutExtension(searchSelection.First().path) + " copié dans le presse-papier";
+            }
+        }
+
+        private void buttonSearchSuppr_Click(object sender, EventArgs e)
+        {
+            if (searchSelection.Count() ==1)
+            {
+                search.Remove(searchSelection.First());
+                searchSelection.First().generate_document();
+                iimages.DeleteOneAsync(searchSelection.First().doc);
+                refresh();
+            }
+        }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDownSearch_ValueChanged(object sender, EventArgs e)
+        {
+            refresh();
+        }
+
         
 
     }

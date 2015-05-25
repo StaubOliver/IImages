@@ -14,6 +14,7 @@ namespace IImages
     {
         public ObjectId id { get; set; }
         public string path { get; set; }
+        public string path_tb { get; set; }
         public DateTime date { get; set; }
         public int rating { get; set; }
         public List<string> tags { get; set; }
@@ -34,13 +35,15 @@ namespace IImages
             couleurs = new List<string>();
             rating = 0;
 
+            generate_thumb();
             generate_document();
         }
 
-        public image(ObjectId i, string p, DateTime d, int r, List<string> t, List<string> per, List<string> c)
+        public image(ObjectId i, string p, string tb, DateTime d, int r, List<string> t, List<string> per, List<string> c)
         {
             this.id = i;
             this.path = p;
+            generate_thumb();
             this.date = d;
             this.rating = r;
             this.tags = t;
@@ -57,19 +60,49 @@ namespace IImages
 
             doc = new BsonDocument
             {
-                { "path" , path },
+                { "path", path },
+                { "path_tb", path_tb },
                 { "rating", rating },
+                { "date", date },
                 { "tags" , _tags },
                 { "personnes", _personnes },
                 { "couleurs", _couleurs }
             };
         }
 
-        public void generate_thumb()
+        private void generate_thumb()
         {
             Image img = new Bitmap(path);
-            this.thumb = img.GetThumbnailImage(100, 100, null, IntPtr.Zero);
+            Size newSize = GetDimensions(img.Width, img.Height, 100);
+            this.thumb = img.GetThumbnailImage(newSize.Height, newSize.Width, null, IntPtr.Zero);
+            //thumb.Save(Path.GetFileNameWithoutExtension(this.path) + "_tb.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+            this.path_tb = Path.GetDirectoryName(this.path) + "\\" + Path.GetFileNameWithoutExtension(this.path + "_tb.jpg");
             img.Dispose();
+        }
+
+        public void load_thumb()
+        {
+            this.thumb = new Bitmap(path_tb);
+        }
+        
+        public void Save_thumb()
+        {
+            this.thumb.Save(Path.GetDirectoryName(this.path) +"\\" +  Path.GetFileNameWithoutExtension(this.path) + "_tb.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+        }
+
+        static Size GetDimensions(int h, int w, int max)
+        {
+            double factor;
+
+            if (w > h)
+            {
+                factor = (double)max / w;
+            }
+            else
+            {
+                factor = (double)max / h;
+            }
+            return new Size((int)(w * factor), (int)(h * factor));
         }
 
         
