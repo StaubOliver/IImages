@@ -68,7 +68,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.numericUpDownSearch = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.listViewSearch = new System.Windows.Forms.ListView();
             this.imageListSearch = new System.Windows.Forms.ImageList(this.components);
@@ -140,6 +140,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(944, 539);
             this.tabControl1.TabIndex = 1;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabAdd
             // 
@@ -559,6 +560,11 @@
             // 
             this.numericUpDownSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.numericUpDownSearch.Location = new System.Drawing.Point(3, 34);
+            this.numericUpDownSearch.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.numericUpDownSearch.Name = "numericUpDownSearch";
             this.numericUpDownSearch.Size = new System.Drawing.Size(83, 20);
             this.numericUpDownSearch.TabIndex = 1;
@@ -574,7 +580,7 @@
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Controls.Add(this.textBox1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.textBoxSearch, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(233, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -583,15 +589,15 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(455, 63);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
-            // textBox1
+            // textBoxSearch
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(3, 18);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(449, 26);
-            this.textBox1.TabIndex = 0;
+            this.textBoxSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSearch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxSearch.Location = new System.Drawing.Point(3, 18);
+            this.textBoxSearch.Name = "textBoxSearch";
+            this.textBoxSearch.Size = new System.Drawing.Size(449, 26);
+            this.textBoxSearch.TabIndex = 0;
             // 
             // tableLayoutPanel10
             // 
@@ -695,6 +701,7 @@
             this.label10.TabIndex = 0;
             this.label10.Text = "Tags";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label10.Click += new System.EventHandler(this.label10_Click);
             // 
             // label11
             // 
@@ -745,6 +752,7 @@
             this.numericUpDownSearchEdit.Size = new System.Drawing.Size(120, 20);
             this.numericUpDownSearchEdit.TabIndex = 4;
             this.numericUpDownSearchEdit.ValueChanged += new System.EventHandler(this.numericUpDownSearchEdit_ValueChanged);
+            this.numericUpDownSearchEdit.Scroll += new System.Windows.Forms.ScrollEventHandler(this.numericUpDownSearchEdit_Scroll);
             // 
             // richTextBoxSearchTags
             // 
@@ -758,6 +766,7 @@
             this.richTextBoxSearchTags.Size = new System.Drawing.Size(167, 68);
             this.richTextBoxSearchTags.TabIndex = 5;
             this.richTextBoxSearchTags.Text = "";
+            this.richTextBoxSearchTags.TextChanged += new System.EventHandler(this.richTextBoxSearchTags_TextChanged);
             this.richTextBoxSearchTags.Validating += new System.ComponentModel.CancelEventHandler(this.richTextBoxSearchTags_Validating);
             // 
             // richTextBoxSearchPersonnes
@@ -918,7 +927,7 @@
         private System.Windows.Forms.TabPage tabSearch;
         private System.Windows.Forms.TabPage tabAdd;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxSearch;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;

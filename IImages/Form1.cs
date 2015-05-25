@@ -57,7 +57,6 @@ namespace IImages
             search.Clear();
             searchSelection.Clear();
 
-            
             //connection à la base
             client = new MongoClient("mongodb://localhost:27017");
             database = client.GetDatabase("iimages");
@@ -68,9 +67,28 @@ namespace IImages
 
             //creation du filtre
             var builder = Builders<BsonDocument>.Filter;
-            var filter = builder.Eq("rating",(int)numericUpDownSearch.Value);
-            filter = builder.And(filter, builder.Gt("rating",(int)numericUpDownSearch.Value));
+            //var filter = builder.Eq("rating",(int)numericUpDownSearch.Value);
+            //filter = builder.And(filter, builder.Gt("rating",(int)numericUpDownSearch.Value));
+            var filter = builder.Eq("rating", (int)numericUpDownSearch.Value);
             
+            //anamyse du champ de recherche
+            var words = textBoxSearch.Text.Split(' ');
+            List<int> dates = new List<int>();
+            foreach (string w in words)
+            {
+                //on regarde s'il y a une année
+                int i;
+                if (Int32.TryParse(w, out i)) 
+                {
+                    dates.Add(i);
+                }
+                else
+                {
+
+                }
+            }
+
+          
 
             //requete
             var cursor = await iimages.FindAsync(filter);
@@ -95,6 +113,7 @@ namespace IImages
             label14.Text = search.Count() + " résultats";
 
             if (search.Count() == 0) { label14.Text = "Pas de résultats pour cette recherche"; }
+
         }
 
         #region Ajout
@@ -106,7 +125,6 @@ namespace IImages
             imageListajout.Images.Clear();
             listViewAjout.Clear();
 
-            int PictureWidth = 100;
             string FolderName = "C:\test";
             
             FolderBrowserDialog browser = new FolderBrowserDialog();
@@ -217,6 +235,9 @@ namespace IImages
             ajout.Clear();
             imageListajout.Images.Clear();
             listViewAjout.Items.Clear();
+            richTextBoxAjoutPersonnes.Enabled = false;
+            richTextBoxAjoutTags.Enabled = false;
+            numericUpDown1.Enabled = false;
         }
 
         private void tableLayoutPanel5_Paint(object sender, PaintEventArgs e)
@@ -408,7 +429,7 @@ namespace IImages
 
         #region Search
 
-        private void listViewSearch_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private async void listViewSearch_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             //si une photo est déja selectionnée on enregistre les modifications
             if (searchSelection.Count() == 1)
@@ -420,7 +441,9 @@ namespace IImages
                 tmp.personnes = searchSelection.First().personnes;
 
                 tmp.generate_document();
-                //updater base de données
+                var builder = Builders<BsonDocument>.Filter;
+                var filter = builder.Eq("path", tmp.path);
+                await iimages.ReplaceOneAsync(filter, tmp.doc);
             }
             status.Text = "Changements enregistrés";
             
@@ -482,6 +505,7 @@ namespace IImages
                 buttonSearchSuppr.Enabled = false;
                 numericUpDownSearchEdit.Value = 0;
                 label12.Text = "Aucune photo sélectionnée";
+                pictureBox2.Image = null;
             }
 
         }
@@ -512,37 +536,58 @@ namespace IImages
         }
 
         
-        private void numericUpDownSearchEdit_ValueChanged(object sender, EventArgs e)
+        private async void numericUpDownSearchEdit_ValueChanged(object sender, EventArgs e)
         {
             if (searchSelection.Count() != 0)
             {
                 searchSelection.First().rating = (int)numericUpDownSearchEdit.Value;
+            
+
+                var builder = Builders<BsonDocument>.Filter;
+                var filter = builder.Eq("path", searchSelection.First().path);
+                searchSelection.First().generate_document();
+                await iimages.ReplaceOneAsync(filter, searchSelection.First().doc);
             }
+            refresh();
+
+           
         }
 
-        private void richTextBoxSearchTags_Validating(object sender, CancelEventArgs e)
+        private async void richTextBoxSearchTags_Validating(object sender, CancelEventArgs e)
         {
             if(searchSelection.Count() == 1)
             {
                 searchSelection.First().tags.Clear();
-                int length = richTextBoxAjoutTags.Lines.Length;
+                int length = richTextBoxSearchTags.Lines.Length;
                 for (int i = 0; i < length; i++)
                 {
-                    searchSelection.First().tags.Add(richTextBoxAjoutTags.Lines[i]);
+                    searchSelection.First().tags.Add(richTextBoxSearchTags.Lines[i]);
                 }
+
             }
+
+            var builder = Builders<BsonDocument>.Filter;
+            var filter = builder.Eq("path", searchSelection.First().path);
+            searchSelection.First().generate_document();
+            await iimages.ReplaceOneAsync(filter, searchSelection.First().doc);
+            refresh();
         }
 
-        private void richTextBoxSearchPersonnes_Validating(object sender, CancelEventArgs e)
+        private async void richTextBoxSearchPersonnes_Validating(object sender, CancelEventArgs e)
         {
             if (searchSelection.Count() == 1)
             {
                 searchSelection.First().tags.Clear();
-                int length = richTextBoxAjoutPersonnes.Lines.Length;
+                int length = richTextBoxSearchPersonnes.Lines.Length;
                 for (int i = 0; i < length; i++)
                 {
-                    searchSelection.First().personnes.Add(richTextBoxAjoutPersonnes.Lines[i]);
+                    searchSelection.First().personnes.Add(richTextBoxSearchPersonnes.Lines[i]);
                 }
+
+                var builder = Builders<BsonDocument>.Filter;
+                var filter = builder.Eq("path", searchSelection.First().path);
+                searchSelection.First().generate_document();
+                await iimages.ReplaceOneAsync(filter, searchSelection.First().doc);
             }
         }
 
@@ -585,6 +630,26 @@ namespace IImages
         private void numericUpDownSearch_ValueChanged(object sender, EventArgs e)
         {
             refresh();
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 1) { refresh(); }
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void richTextBoxSearchTags_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDownSearchEdit_Scroll(object sender, ScrollEventArgs e)
+        {
+
         }
 
         
