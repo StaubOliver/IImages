@@ -70,6 +70,7 @@ namespace IImages
                 imageListSearch.Images.Add(im.path, im.thumb);
                 listViewSearch.Items.Add(im.path, Path.GetFileName(im.path), im.path);
             }
+            label14.Text = search.Count() + " résultats";
         }
 
         #region Ajout
@@ -353,6 +354,16 @@ namespace IImages
                 }
             }
         }
+        
+        //bouton annuler page ajout
+        private void button3_Click(object sender, EventArgs e)
+        {
+            listViewAjout.Clear();
+            imageListajout.Images.Clear();
+            ajoutSelection.Clear();
+            ajout.Clear();
+        }
+
 
         #endregion
 
@@ -363,6 +374,24 @@ namespace IImages
 
         private void listViewSearch_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
+            //si une photo est déja selectionnée on enregistre les modifications
+            if (searchSelection.Count() == 1)
+            {
+                var tmp = search.Find(i => i.path == searchSelection.First().path);
+
+                tmp.rating = searchSelection.First().rating;
+                tmp.tags = searchSelection.First().tags;
+                tmp.personnes = searchSelection.First().personnes;
+
+                tmp.generate_document();
+                //updater base de données
+            }
+            status.Text = "Changements enregistrés";
+            
+            
+
+
+            //affiche de la nouvelle sélection
             var selection = listViewSearch.SelectedItems;
             if (selection.Count == 1)
             {
@@ -371,12 +400,49 @@ namespace IImages
                 {
                     searchSelection.Add(search.Find(i => i.path == item.ImageKey));
                 }
+                
+                
+                //rafraichissement de l'interface
+                label12.Text = Path.GetFileNameWithoutExtension(searchSelection.First().path);
+                numericUpDownSearchEdit.Value = searchSelection.First().rating;
+                richTextBoxSearchPersonnes.Lines = new string[] { "" };
+                richTextBoxSearchTags.Lines = new string[] { "" };
+
+                int count = 0;
+                foreach (string str in searchSelection.First().tags)
+                {
+                    richTextBoxSearchTags.AppendText(str + "\n");
+                    count += 1;
+                }
+                count = 0;
+                foreach (string str in searchSelection.First().personnes)
+                {
+                    richTextBoxSearchPersonnes.Lines[count] = str;
+                    count++;
+                }
+
+                numericUpDownSearchEdit.Enabled = true;
+                richTextBoxSearchPersonnes.Enabled = true;
+                richTextBoxSearchTags.Enabled = true;
+
+                if (pictureBox2.Image != null)
+                {
+                    pictureBox2.Image.Dispose();
+                }
+                pictureBox2.Image = Image.FromFile(searchSelection.First().path);
             }
-            if (pictureBox2.Image != null)
+            else if (selection.Count == 0)
             {
+                searchSelection.Clear();
+             
+                numericUpDownSearchEdit.Enabled = false;
+                richTextBoxSearchPersonnes.Enabled = false;
+                richTextBoxSearchTags.Enabled = false;
+                numericUpDownSearchEdit.Value = 0;
+                label12.Text = "Aucune photo sélectionnée";
                 pictureBox2.Image.Dispose();
             }
-            pictureBox2.Image = Image.FromFile(searchSelection.First().path);
+
         }
 
 
@@ -404,12 +470,39 @@ namespace IImages
              * */
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        
+        private void numericUpDownSearchEdit_ValueChanged(object sender, EventArgs e)
         {
-            listViewAjout.Clear();
-            imageListajout.Images.Clear();
-            ajoutSelection.Clear();
-            ajout.Clear();
+            if (searchSelection.Count() != 0)
+            {
+                searchSelection.First().rating = (int)numericUpDownSearchEdit.Value;
+            }
+        }
+
+        private void richTextBoxSearchTags_Validating(object sender, CancelEventArgs e)
+        {
+            if(searchSelection.Count() == 1)
+            {
+                searchSelection.First().tags.Clear();
+                int length = richTextBoxAjoutTags.Lines.Length;
+                for (int i = 0; i < length; i++)
+                {
+                    searchSelection.First().tags.Add(richTextBoxAjoutTags.Lines[i]);
+                }
+            }
+        }
+
+        private void richTextBoxSearchPersonnes_Validating(object sender, CancelEventArgs e)
+        {
+            if (searchSelection.Count() == 1)
+            {
+                searchSelection.First().tags.Clear();
+                int length = richTextBoxAjoutPersonnes.Lines.Length;
+                for (int i = 0; i < length; i++)
+                {
+                    searchSelection.First().personnes.Add(richTextBoxAjoutPersonnes.Lines[i]);
+                }
+            }
         }
         
 
