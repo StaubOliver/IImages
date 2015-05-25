@@ -54,14 +54,16 @@ namespace IImages
             var filter = new BsonDocument();
             var cursor = await iimages.FindAsync(filter);
 
-            await cursor.MoveNextAsync();
             
+
+            while (await cursor.MoveNextAsync())
+            {
                 var batch = cursor.Current;
                 foreach (var document in batch)
                 {
                     search.Add(MongoDB.Bson.Serialization.BsonSerializer.Deserialize<image>(document));
                 }
-            
+            }
             foreach (image im in search)
             {
                 im.generate_thumb();
@@ -400,6 +402,14 @@ namespace IImages
             }
             pictureBox2.Image = Image.FromFile(searchSelection.First().path);
              * */
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            listViewAjout.Clear();
+            imageListajout.Images.Clear();
+            ajoutSelection.Clear();
+            ajout.Clear();
         }
         
 
