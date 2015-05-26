@@ -548,6 +548,9 @@ namespace IImages
                 searchSelection.First().generate_document();
                 await iimages.ReplaceOneAsync(filter, searchSelection.First().doc);
             }
+            imageListSearch.Images.Clear();
+            listViewSearch.Items.Clear();
+            disableEditing();
             refresh();
 
            
@@ -652,7 +655,15 @@ namespace IImages
 
         }
 
-        
+        private void disableEditing()
+        {
+            numericUpDownSearchEdit.Enabled = false;
+            richTextBoxSearchPersonnes.Enabled = false;
+            richTextBoxSearchTags.Enabled = false;
+            richTextBoxSearchTags.Lines = new string[] { "" };
+            richTextBoxSearchPersonnes.Lines = new string[] { "" };
+            pictureBox2.Image = null;
+        }
 
     }
 }
