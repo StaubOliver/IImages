@@ -524,7 +524,7 @@ namespace IImages
                  //generate fixed size bitmap
                 const int width = 256, height = 94;
                 Bitmap res = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                using (Graphics g = Graphics.FromImage(res))
+                /*using (Graphics g = Graphics.FromImage(res))
                 {
                     for (int i = 0; i < 3; ++i)
                     {
@@ -537,6 +537,112 @@ namespace IImages
                                     temp = 1;
                                 int myHeight = (int)(Math.Log(temp) * 10);
                                 g.DrawLine(p, j, height, j, height - myHeight);
+                            }
+                        }
+                    }
+                }*/
+                using (Graphics g = Graphics.FromImage(res))
+                {
+                    for (int i = 0; i < 3; ++i)
+                    {
+                        using (Pen p = new Pen(Color.FromArgb(0,0,0)))
+                        {
+                            for (int j = 0; j < width; ++j)
+                            {
+                                int myHeight1 = 0;
+                                int myHeight2 = 0;
+                                int myHeight3 = 0;
+
+                                var tempR = hist[0, j];
+                                var tempG = hist[1, j];
+                                var tempB = hist[2, j];
+
+                                if (tempR < 1) tempR = 1;
+                                if (tempG < 1) tempG = 1;
+                                if (tempB < 1) tempB = 1;
+
+
+                                if ((tempB < tempR) && (tempB < tempG))
+                                {
+                                    myHeight1 = (int)(Math.Log(tempB) * 10);
+                                    g.DrawLine(p, j, height, j, height - myHeight1);
+
+                                    if (tempR < tempG)
+                                    {
+                                        myHeight2 = (int)(Math.Log(tempR) * 10);
+                                        p.Color = Color.FromArgb(255, 255, 0);
+                                        g.DrawLine(p, j, height - myHeight1, j, myHeight1 - myHeight2);
+
+                                        myHeight3 = (int)(Math.Log(tempG) * 10);
+                                        p.Color = Color.FromArgb(0, 255, 0);
+                                        g.DrawLine(p, j, height - myHeight2, j, myHeight2 - myHeight3);
+                                    }
+                                    else
+                                    {
+                                        myHeight2 = (int)(Math.Log(tempG) * 10);
+                                        p.Color = Color.FromArgb(255, 255, 0);
+                                        g.DrawLine(p, j, height - myHeight1, j, myHeight1 - myHeight2);
+
+                                        myHeight3 = (int)(Math.Log(tempR) * 10);
+                                        p.Color = Color.FromArgb(255, 0, 0);
+                                        g.DrawLine(p, j, myHeight1 - myHeight2, j, myHeight2 - myHeight3);
+                                    }
+                                }
+                                else if ((tempG < tempR) && (tempG < tempB))
+                                {
+                                    p.Color = Color.FromArgb(0, 0, 0);
+                                    myHeight1 = (int)(Math.Log(tempG) * 10);
+                                    g.DrawLine(p, j, height, j, height - myHeight1);
+
+                                    if (tempR < tempB)
+                                    {
+                                        myHeight2 = (int)(Math.Log(tempR) * 10);
+                                        p.Color = Color.FromArgb(255, 0, 255);
+                                        g.DrawLine(p, j, height - myHeight1, j, myHeight1 - myHeight2);
+
+                                        myHeight3 = (int)(Math.Log(tempB) * 10);
+                                        p.Color = Color.FromArgb(0, 0, 255);
+                                        g.DrawLine(p, j, myHeight1 - myHeight2, j, myHeight2 - myHeight3);
+                                    }
+                                    else
+                                    {
+                                        myHeight2 = (int)(Math.Log(tempB) * 10);
+                                        p.Color = Color.FromArgb(255, 0, 255);
+                                        g.DrawLine(p, j, height - myHeight1, j, myHeight1 - myHeight2);
+
+                                        myHeight3 = (int)(Math.Log(tempR) * 10);
+                                        p.Color = Color.FromArgb(255, 0, 0);
+                                        g.DrawLine(p, j, myHeight1 - myHeight2, j, myHeight2 - myHeight3);
+                                    }
+                                }
+                                else if ((tempR < tempG) && (tempR < tempB))
+                                {
+                                    p.Color = Color.FromArgb(0, 0, 0);
+                                    myHeight1 = (int)(Math.Log(tempR) * 10);
+                                    g.DrawLine(p, j, height, j, height - myHeight1);
+
+                                    if (tempG < tempB)
+                                    {
+                                        myHeight2 = (int)(Math.Log(tempG) * 10);
+                                        p.Color = Color.FromArgb(0, 255, 255);
+                                        g.DrawLine(p, j, height - myHeight1, j, myHeight1 - myHeight2);
+
+                                        myHeight3 = (int)(Math.Log(tempB) * 10);
+                                        p.Color = Color.FromArgb(0, 0, 255);
+                                        g.DrawLine(p, j, myHeight1 - myHeight2, j, myHeight2 - myHeight3);
+                                    }
+                                    else
+                                    {
+                                        myHeight2 = (int)(Math.Log(tempB) * 10);
+                                        p.Color = Color.FromArgb(0, 255, 255);
+                                        g.DrawLine(p, j, height - myHeight1, j, myHeight1 - myHeight2);
+
+                                        myHeight3 = (int)(Math.Log(tempG) * 10);
+                                        p.Color = Color.FromArgb(0, 255, 0);
+                                        g.DrawLine(p, j, myHeight1 - myHeight2, j, myHeight2 - myHeight3);
+                                    }
+                                }
+
                             }
                         }
                     }
