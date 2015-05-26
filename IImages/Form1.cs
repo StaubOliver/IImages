@@ -73,30 +73,57 @@ namespace IImages
             var builder = Builders<BsonDocument>.Filter;
             //var filter = builder.Eq("rating",(int)numericUpDownSearch.Value);
             //filter = builder.And(filter, builder.Gt("rating",(int)numericUpDownSearch.Value));
-            var filter = builder.Eq("rating", (int)numericUpDownSearch.Value);
-            
+            //var filter = builder.Eq("rating", (int)numericUpDownSearch.Value);
             //analyse du champ de recherche
             var words = textBoxSearch.Text.Split(' ');
             List<int> dates = new List<int>();
+            List<string> tags = new List<string>();
             foreach (string w in words)
             {
                 //on regarde s'il y a une année
                 int i;
                 if (Int32.TryParse(w, out i)) 
                 {
-                    dates.Add(i);
+                    if ((i <2000)&&(i<2100))
+                    {
+                        dates.Add(i);
+                    }
                 }
                 else
                 {
-
+                    tags.Add(w);
                 }
             }
+            var filterDates = new BsonArray();
+            foreach (int i in dates)
+            {
+                filterDates.Add(new BsonInt32(i));
+            }
 
-          
+            var filterTags = new BsonArray();
+            foreach (string word in tags)
+            {
+                filterTags.Add(new BsonString(word));
+            }
+
+            var filterRatings = new BsonArray();
+            if (checkBoxAbove.Checked)
+            {
+                for (int i = (int)numericUpDownSearch.Value ; i < 6; i++)
+                {
+                    filterRatings.Add(i);
+                }
+            }    
+            else
+            {
+                filterRatings.Add(new BsonInt32((int)numericUpDownSearch.Value));
+            }
+            
+            var filter = builder.And(builder.In("rating",filterRatings),builder.In("tags",filterTags));
 
             //requete
             var cursor = await iimages.FindAsync(filter);
-           
+            
             //traitement des résultats
             while (await cursor.MoveNextAsync())
             {
@@ -778,7 +805,7 @@ namespace IImages
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            refresh();
         }
 
         private void numericUpDownSearch_ValueChanged(object sender, EventArgs e)
@@ -814,6 +841,16 @@ namespace IImages
             richTextBoxSearchTags.Lines = new string[] { "" };
             richTextBoxSearchPersonnes.Lines = new string[] { "" };
             pictureBox2.Image = null;
+        }
+
+        private void checkBoxAbove_CheckedChanged(object sender, EventArgs e)
+        {
+            refresh();
+        }
+
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            refresh();
         }
 
 

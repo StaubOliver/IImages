@@ -53,11 +53,11 @@
             this.richTextBoxAjoutTags = new System.Windows.Forms.RichTextBox();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
-            this.add_Submit = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.buttonAjoutSelectAll = new System.Windows.Forms.Button();
             this.buttonAjoutSuppr = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.add_Submit = new System.Windows.Forms.Button();
             this.listViewAjout = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -91,12 +91,12 @@
             this.label10 = new System.Windows.Forms.Label();
             this.numericUpDownSearchEdit = new System.Windows.Forms.NumericUpDown();
             this.label15 = new System.Windows.Forms.Label();
+            this.pictureBoxHist = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.pictureBoxHist = new System.Windows.Forms.PictureBox();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabAdd.SuspendLayout();
@@ -120,8 +120,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tableLayoutPanel11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSearchEdit)).BeginInit();
-            this.tableLayoutPanel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHist)).BeginInit();
+            this.tableLayoutPanel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -424,18 +424,6 @@
             this.tableLayoutPanel14.Size = new System.Drawing.Size(188, 86);
             this.tableLayoutPanel14.TabIndex = 17;
             // 
-            // add_Submit
-            // 
-            this.tableLayoutPanel14.SetColumnSpan(this.add_Submit, 2);
-            this.add_Submit.Dock = System.Windows.Forms.DockStyle.Top;
-            this.add_Submit.Location = new System.Drawing.Point(3, 59);
-            this.add_Submit.Name = "add_Submit";
-            this.add_Submit.Size = new System.Drawing.Size(182, 23);
-            this.add_Submit.TabIndex = 8;
-            this.add_Submit.Text = "Ajouter";
-            this.add_Submit.UseVisualStyleBackColor = true;
-            this.add_Submit.Click += new System.EventHandler(this.button2_Click);
-            // 
             // button3
             // 
             this.button3.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -479,6 +467,18 @@
             this.button2.Text = "Inverser";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button2_MouseClick);
+            // 
+            // add_Submit
+            // 
+            this.tableLayoutPanel14.SetColumnSpan(this.add_Submit, 2);
+            this.add_Submit.Dock = System.Windows.Forms.DockStyle.Top;
+            this.add_Submit.Location = new System.Drawing.Point(3, 59);
+            this.add_Submit.Name = "add_Submit";
+            this.add_Submit.Size = new System.Drawing.Size(182, 23);
+            this.add_Submit.TabIndex = 8;
+            this.add_Submit.Text = "Ajouter";
+            this.add_Submit.UseVisualStyleBackColor = true;
+            this.add_Submit.Click += new System.EventHandler(this.button2_Click);
             // 
             // listViewAjout
             // 
@@ -643,6 +643,8 @@
             // checkBoxAbove
             // 
             this.checkBoxAbove.AutoSize = true;
+            this.checkBoxAbove.Checked = true;
+            this.checkBoxAbove.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxAbove.Dock = System.Windows.Forms.DockStyle.Top;
             this.checkBoxAbove.Location = new System.Drawing.Point(121, 27);
             this.checkBoxAbove.Name = "checkBoxAbove";
@@ -650,6 +652,7 @@
             this.checkBoxAbove.TabIndex = 2;
             this.checkBoxAbove.Text = "Au-dessus";
             this.checkBoxAbove.UseVisualStyleBackColor = true;
+            this.checkBoxAbove.CheckedChanged += new System.EventHandler(this.checkBoxAbove_CheckedChanged);
             // 
             // tableLayoutPanel2
             // 
@@ -674,6 +677,7 @@
             this.textBoxSearch.Name = "textBoxSearch";
             this.textBoxSearch.Size = new System.Drawing.Size(593, 26);
             this.textBoxSearch.TabIndex = 0;
+            this.textBoxSearch.TextChanged += new System.EventHandler(this.textBoxSearch_TextChanged);
             // 
             // tableLayoutPanel10
             // 
@@ -913,6 +917,15 @@
             this.label15.Text = "s";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // pictureBoxHist
+            // 
+            this.pictureBoxHist.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pictureBoxHist.Location = new System.Drawing.Point(171, 362);
+            this.pictureBoxHist.Name = "pictureBoxHist";
+            this.pictureBoxHist.Size = new System.Drawing.Size(256, 94);
+            this.pictureBoxHist.TabIndex = 3;
+            this.pictureBoxHist.TabStop = false;
+            // 
             // tableLayoutPanel7
             // 
             this.tableLayoutPanel7.ColumnCount = 2;
@@ -967,15 +980,6 @@
             this.elementHost1.Text = "elementHost1";
             this.elementHost1.Child = null;
             // 
-            // pictureBoxHist
-            // 
-            this.pictureBoxHist.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.pictureBoxHist.Location = new System.Drawing.Point(171, 362);
-            this.pictureBoxHist.Name = "pictureBoxHist";
-            this.pictureBoxHist.Size = new System.Drawing.Size(256, 94);
-            this.pictureBoxHist.TabIndex = 3;
-            this.pictureBoxHist.TabStop = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1019,9 +1023,9 @@
             this.tableLayoutPanel11.ResumeLayout(false);
             this.tableLayoutPanel11.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSearchEdit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHist)).EndInit();
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHist)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
