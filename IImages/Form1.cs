@@ -57,6 +57,7 @@ namespace IImages
             search.Clear();
             searchSelection.Clear();
             pictureBox2.Image = null;
+            pictureBoxHist.Image = null;
             listViewSearch.SelectedItems.Clear();
             disableEditing();
 
@@ -503,6 +504,7 @@ namespace IImages
                
                 pictureBox2.Image = Image.FromFile(searchSelection.First().path);
                 Bitmap bmp = new Bitmap(pictureBox2.Image);
+               
                 //génération de l'histogramme
                 
                 int[,] hist = new int[3, 256];
@@ -540,7 +542,9 @@ namespace IImages
                     }
                 }
                 pictureBoxHist.Image = res;
-
+                //pictureBoxHist.Image.Dispose();
+                //res.Dispose();
+                bmp.Dispose();
                 //ménage
                 //bmp.Dispose();
             }
