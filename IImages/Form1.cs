@@ -46,7 +46,7 @@ namespace IImages
 
             status.Text = "Connecté";
             
-            refresh();
+            //refresh();
         }
 
         public async void refresh()
@@ -56,6 +56,9 @@ namespace IImages
             listViewSearch.Items.Clear();
             search.Clear();
             searchSelection.Clear();
+            pictureBox2.Image = null;
+            listViewSearch.SelectedItems.Clear();
+            disableEditing();
 
             //connection à la base
             client = new MongoClient("mongodb://localhost:27017");
@@ -71,7 +74,7 @@ namespace IImages
             //filter = builder.And(filter, builder.Gt("rating",(int)numericUpDownSearch.Value));
             var filter = builder.Eq("rating", (int)numericUpDownSearch.Value);
             
-            //anamyse du champ de recherche
+            //analyse du champ de recherche
             var words = textBoxSearch.Text.Split(' ');
             List<int> dates = new List<int>();
             foreach (string w in words)
@@ -429,10 +432,10 @@ namespace IImages
 
         #region Search
 
-        private async void listViewSearch_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void listViewSearch_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             //si une photo est déja selectionnée on enregistre les modifications
-            if (searchSelection.Count() == 1)
+            /*if (searchSelection.Count() == 1)
             {
                 var tmp = search.Find(i => i.path == searchSelection.First().path);
 
@@ -444,8 +447,8 @@ namespace IImages
                 var builder = Builders<BsonDocument>.Filter;
                 var filter = builder.Eq("path", tmp.path);
                 await iimages.ReplaceOneAsync(filter, tmp.doc);
-            }
-            status.Text = "Changements enregistrés";
+            }*/
+            
             
             
 
@@ -488,16 +491,65 @@ namespace IImages
                 buttonSearchOpen.Enabled = true;
                 buttonSearchSuppr.Enabled = true;
 
+                buttonSearchCopy.Enabled = true;
+                buttonSearchOpen.Enabled = true;
+                buttonSearchSuppr.Enabled = true;
+
                 if (pictureBox2.Image != null)
                 {
                     pictureBox2.Image.Dispose();
                 }
+                //affichage de l'image
+               
                 pictureBox2.Image = Image.FromFile(searchSelection.First().path);
+                Bitmap bmp = new Bitmap(pictureBox2.Image);
+                //génération de l'histogramme
+                
+                int[,] hist = new int[3, 256];
+                for (int i = 0; i < 3; ++i)
+                    for (int j = 0; j < 256; ++j)
+                        hist[i, j] = 0;
+
+                for (int i = 0; i < bmp.Width; i += 11)
+                    for (int j = 0; j < bmp.Height; j += 3)
+                    {
+                        var col = bmp.GetPixel(i, j);
+                        hist[0, col.R]++;
+                        hist[1, col.G]++;
+                        hist[2, col.B]++;
+                    }
+                
+                 //generate fixed size bitmap
+                const int width = 256, height = 94;
+                Bitmap res = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                using (Graphics g = Graphics.FromImage(res))
+                {
+                    for (int i = 0; i < 3; ++i)
+                    {
+                        using (Pen p = new Pen(i == 0 ? Color.Red : i == 1 ? Color.Green : Color.Blue))
+                        {
+                            for (int j = 0; j < width; ++j)
+                            {
+                                var temp = hist[i, j];
+                                if (temp < 1)
+                                    temp = 1;
+                                int myHeight = (int)(Math.Log(temp) * 10);
+                                g.DrawLine(p, j, height, j, height - myHeight);
+                            }
+                        }
+                    }
+                }
+                pictureBoxHist.Image = res;
+
+                //ménage
+                //bmp.Dispose();
             }
             else if (selection.Count == 0)
             {
                 searchSelection.Clear();
-             
+
+                richTextBoxSearchPersonnes.Text = "";
+                richTextBoxSearchTags.Text = "";
                 numericUpDownSearchEdit.Enabled = false;
                 richTextBoxSearchPersonnes.Enabled = false;
                 richTextBoxSearchTags.Enabled = false;
@@ -508,6 +560,10 @@ namespace IImages
                 label12.Text = "Aucune photo sélectionnée";
                 label15.Text = "Aucune photo sélectionnée";
                 pictureBox2.Image = null;
+                pictureBoxHist.Image = null;
+                buttonSearchCopy.Enabled = false;
+                buttonSearchOpen.Enabled = false;
+                buttonSearchSuppr.Enabled = false;
             }
 
         }
@@ -534,73 +590,56 @@ namespace IImages
                 pictureBox2.Image.Dispose();
             }
             pictureBox2.Image = Image.FromFile(searchSelection.First().path);
-             * */
+             */
         }
 
         
-        private async void numericUpDownSearchEdit_ValueChanged(object sender, EventArgs e)
+        private void numericUpDownSearchEdit_ValueChanged(object sender, EventArgs e)
         {
-            if (searchSelection.Count() != 0)
-            {
-                searchSelection.First().rating = (int)numericUpDownSearchEdit.Value;
-            
-
-                var builder = Builders<BsonDocument>.Filter;
-                var filter = builder.Eq("path", searchSelection.First().path);
-                searchSelection.First().generate_document();
-                await iimages.ReplaceOneAsync(filter, searchSelection.First().doc);
-            }
-            imageListSearch.Images.Clear();
-            listViewSearch.Items.Clear();
-            disableEditing();
-            refresh();
-
            
         }
 
-        private async void richTextBoxSearchTags_Validating(object sender, CancelEventArgs e)
+        private  void richTextBoxSearchTags_Validating(object sender, CancelEventArgs e)
         {
-            if(searchSelection.Count() == 1)
-            {
-                searchSelection.First().tags.Clear();
-                int length = richTextBoxSearchTags.Lines.Length;
-                for (int i = 0; i < length; i++)
-                {
-                    searchSelection.First().tags.Add(richTextBoxSearchTags.Lines[i]);
-                }
-
-            }
-
-            var builder = Builders<BsonDocument>.Filter;
-            var filter = builder.Eq("path", searchSelection.First().path);
-            searchSelection.First().generate_document();
-            await iimages.ReplaceOneAsync(filter, searchSelection.First().doc);
-            refresh();
         }
 
-        private async void richTextBoxSearchPersonnes_Validating(object sender, CancelEventArgs e)
+        private void richTextBoxSearchPersonnes_Validating(object sender, CancelEventArgs e)
+        {
+            
+        }
+        
+        //button enregistrer
+        private async void buttonSearchOpen_Click(object sender, EventArgs e)
         {
             if (searchSelection.Count() == 1)
             {
-                searchSelection.First().tags.Clear();
+                //maj des tags
+                searchSelection.First().personnes.Clear();
                 int length = richTextBoxSearchPersonnes.Lines.Length;
                 for (int i = 0; i < length; i++)
                 {
                     searchSelection.First().personnes.Add(richTextBoxSearchPersonnes.Lines[i]);
                 }
+                
+                //maj des tags
+                searchSelection.First().tags.Clear();
+                length = richTextBoxSearchTags.Lines.Length;
+                for (int i = 0; i < length; i++)
+                {
+                    searchSelection.First().tags.Add(richTextBoxSearchTags.Lines[i]);
+                }
 
+                //maj de la note
+                searchSelection.First().rating = (int)numericUpDownSearchEdit.Value;
+
+                //enregistrement dans la BDD
                 var builder = Builders<BsonDocument>.Filter;
                 var filter = builder.Eq("path", searchSelection.First().path);
                 searchSelection.First().generate_document();
                 await iimages.ReplaceOneAsync(filter, searchSelection.First().doc);
-            }
-        }
-
-        private void buttonSearchOpen_Click(object sender, EventArgs e)
-        {
-            if (searchSelection.Count == 1)
-            {
-                File.Open(searchSelection.First().path, FileMode.Open,FileAccess.Read);
+                status.Text = "Changements enregistrés";
+                refresh();
+               
             }
         }
 
@@ -666,6 +705,7 @@ namespace IImages
             richTextBoxSearchPersonnes.Lines = new string[] { "" };
             pictureBox2.Image = null;
         }
+
 
     }
 }
