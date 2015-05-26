@@ -463,6 +463,7 @@ namespace IImages
                 
                 //rafraichissement de l'interface
                 label12.Text = Path.GetFileNameWithoutExtension(searchSelection.First().path);
+                label15.Text = searchSelection.First().date.ToString();
                 numericUpDownSearchEdit.Value = searchSelection.First().rating;
                 richTextBoxSearchPersonnes.Lines = new string[] { "" };
                 richTextBoxSearchTags.Lines = new string[] { "" };
@@ -505,6 +506,7 @@ namespace IImages
                 buttonSearchSuppr.Enabled = false;
                 numericUpDownSearchEdit.Value = 0;
                 label12.Text = "Aucune photo sélectionnée";
+                label15.Text = "Aucune photo sélectionnée";
                 pictureBox2.Image = null;
             }
 
