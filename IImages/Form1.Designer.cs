@@ -83,7 +83,6 @@
             this.richTextBoxSearchPersonnes = new System.Windows.Forms.RichTextBox();
             this.buttonSearchOpen = new System.Windows.Forms.Button();
             this.buttonSearchCopy = new System.Windows.Forms.Button();
-            this.buttonSearchSuppr = new System.Windows.Forms.Button();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -94,6 +93,7 @@
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
             this.button3 = new System.Windows.Forms.Button();
+            this.buttonSearchSuppr = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabAdd.SuspendLayout();
@@ -203,8 +203,8 @@
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(553, 10);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(553, 15);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(24, 24);
             this.pictureBox1.TabIndex = 1;
@@ -616,7 +616,7 @@
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 2;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 170F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 130F));
             this.tableLayoutPanel6.Size = new System.Drawing.Size(455, 411);
             this.tableLayoutPanel6.TabIndex = 1;
             // 
@@ -627,29 +627,32 @@
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox2.Location = new System.Drawing.Point(3, 3);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(449, 235);
+            this.pictureBox2.Size = new System.Drawing.Size(449, 275);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
             // 
             // tableLayoutPanel11
             // 
-            this.tableLayoutPanel11.ColumnCount = 3;
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.99999F));
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.00001F));
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 103F));
-            this.tableLayoutPanel11.Controls.Add(this.label10, 0, 2);
-            this.tableLayoutPanel11.Controls.Add(this.label11, 1, 2);
-            this.tableLayoutPanel11.Controls.Add(this.label12, 0, 0);
-            this.tableLayoutPanel11.Controls.Add(this.label13, 0, 1);
-            this.tableLayoutPanel11.Controls.Add(this.numericUpDownSearchEdit, 1, 1);
-            this.tableLayoutPanel11.Controls.Add(this.richTextBoxSearchTags, 0, 3);
-            this.tableLayoutPanel11.Controls.Add(this.richTextBoxSearchPersonnes, 1, 3);
-            this.tableLayoutPanel11.Controls.Add(this.buttonSearchOpen, 2, 1);
-            this.tableLayoutPanel11.Controls.Add(this.buttonSearchCopy, 2, 2);
-            this.tableLayoutPanel11.Controls.Add(this.buttonSearchSuppr, 2, 3);
+            this.tableLayoutPanel11.ColumnCount = 6;
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel11.Controls.Add(this.label12, 1, 0);
+            this.tableLayoutPanel11.Controls.Add(this.label13, 1, 1);
+            this.tableLayoutPanel11.Controls.Add(this.buttonSearchOpen, 4, 1);
+            this.tableLayoutPanel11.Controls.Add(this.buttonSearchCopy, 4, 2);
+            this.tableLayoutPanel11.Controls.Add(this.buttonSearchSuppr, 4, 3);
+            this.tableLayoutPanel11.Controls.Add(this.label11, 3, 1);
+            this.tableLayoutPanel11.Controls.Add(this.richTextBoxSearchPersonnes, 3, 2);
+            this.tableLayoutPanel11.Controls.Add(this.richTextBoxSearchTags, 2, 2);
+            this.tableLayoutPanel11.Controls.Add(this.label10, 2, 1);
+            this.tableLayoutPanel11.Controls.Add(this.numericUpDownSearchEdit, 1, 2);
             this.tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel11.Location = new System.Drawing.Point(3, 244);
+            this.tableLayoutPanel11.Location = new System.Drawing.Point(3, 284);
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
             this.tableLayoutPanel11.RowCount = 5;
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -657,16 +660,16 @@
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel11.Size = new System.Drawing.Size(449, 164);
+            this.tableLayoutPanel11.Size = new System.Drawing.Size(449, 124);
             this.tableLayoutPanel11.TabIndex = 2;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.Location = new System.Drawing.Point(3, 60);
+            this.label10.Location = new System.Drawing.Point(68, 30);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(166, 30);
+            this.label10.Size = new System.Drawing.Size(154, 30);
             this.label10.TabIndex = 0;
             this.label10.Text = "Tags";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -676,9 +679,9 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label11.Location = new System.Drawing.Point(175, 60);
+            this.label11.Location = new System.Drawing.Point(228, 30);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(167, 30);
+            this.label11.Size = new System.Drawing.Size(154, 30);
             this.label11.TabIndex = 1;
             this.label11.Text = "Personnes";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -686,11 +689,11 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.tableLayoutPanel11.SetColumnSpan(this.label12, 3);
+            this.tableLayoutPanel11.SetColumnSpan(this.label12, 4);
             this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label12.Location = new System.Drawing.Point(3, 0);
+            this.label12.Location = new System.Drawing.Point(-52, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(443, 30);
+            this.label12.Size = new System.Drawing.Size(554, 30);
             this.label12.TabIndex = 2;
             this.label12.Text = "Aucune photo sélectionnée";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -699,9 +702,9 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label13.Location = new System.Drawing.Point(3, 30);
+            this.label13.Location = new System.Drawing.Point(-52, 30);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(166, 30);
+            this.label13.Size = new System.Drawing.Size(114, 30);
             this.label13.TabIndex = 3;
             this.label13.Text = "Note";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -711,14 +714,14 @@
             this.numericUpDownSearchEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.numericUpDownSearchEdit.Enabled = false;
-            this.numericUpDownSearchEdit.Location = new System.Drawing.Point(175, 33);
+            this.numericUpDownSearchEdit.Location = new System.Drawing.Point(-52, 63);
             this.numericUpDownSearchEdit.Maximum = new decimal(new int[] {
             5,
             0,
             0,
             0});
             this.numericUpDownSearchEdit.Name = "numericUpDownSearchEdit";
-            this.numericUpDownSearchEdit.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownSearchEdit.Size = new System.Drawing.Size(114, 20);
             this.numericUpDownSearchEdit.TabIndex = 4;
             this.numericUpDownSearchEdit.ValueChanged += new System.EventHandler(this.numericUpDownSearchEdit_ValueChanged);
             this.numericUpDownSearchEdit.Scroll += new System.Windows.Forms.ScrollEventHandler(this.numericUpDownSearchEdit_Scroll);
@@ -729,10 +732,10 @@
             this.richTextBoxSearchTags.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBoxSearchTags.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxSearchTags.Enabled = false;
-            this.richTextBoxSearchTags.Location = new System.Drawing.Point(3, 93);
+            this.richTextBoxSearchTags.Location = new System.Drawing.Point(68, 63);
             this.richTextBoxSearchTags.Name = "richTextBoxSearchTags";
             this.tableLayoutPanel11.SetRowSpan(this.richTextBoxSearchTags, 2);
-            this.richTextBoxSearchTags.Size = new System.Drawing.Size(166, 68);
+            this.richTextBoxSearchTags.Size = new System.Drawing.Size(154, 54);
             this.richTextBoxSearchTags.TabIndex = 5;
             this.richTextBoxSearchTags.Text = "";
             this.richTextBoxSearchTags.TextChanged += new System.EventHandler(this.richTextBoxSearchTags_TextChanged);
@@ -743,10 +746,10 @@
             this.richTextBoxSearchPersonnes.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBoxSearchPersonnes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxSearchPersonnes.Enabled = false;
-            this.richTextBoxSearchPersonnes.Location = new System.Drawing.Point(175, 93);
+            this.richTextBoxSearchPersonnes.Location = new System.Drawing.Point(228, 63);
             this.richTextBoxSearchPersonnes.Name = "richTextBoxSearchPersonnes";
             this.tableLayoutPanel11.SetRowSpan(this.richTextBoxSearchPersonnes, 2);
-            this.richTextBoxSearchPersonnes.Size = new System.Drawing.Size(167, 68);
+            this.richTextBoxSearchPersonnes.Size = new System.Drawing.Size(154, 54);
             this.richTextBoxSearchPersonnes.TabIndex = 6;
             this.richTextBoxSearchPersonnes.Text = "";
             this.richTextBoxSearchPersonnes.Validating += new System.ComponentModel.CancelEventHandler(this.richTextBoxSearchPersonnes_Validating);
@@ -755,7 +758,7 @@
             // 
             this.buttonSearchOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.buttonSearchOpen.Enabled = false;
-            this.buttonSearchOpen.Location = new System.Drawing.Point(354, 33);
+            this.buttonSearchOpen.Location = new System.Drawing.Point(402, 33);
             this.buttonSearchOpen.Name = "buttonSearchOpen";
             this.buttonSearchOpen.Size = new System.Drawing.Size(85, 24);
             this.buttonSearchOpen.TabIndex = 7;
@@ -767,25 +770,13 @@
             // 
             this.buttonSearchCopy.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.buttonSearchCopy.Enabled = false;
-            this.buttonSearchCopy.Location = new System.Drawing.Point(354, 63);
+            this.buttonSearchCopy.Location = new System.Drawing.Point(402, 63);
             this.buttonSearchCopy.Name = "buttonSearchCopy";
             this.buttonSearchCopy.Size = new System.Drawing.Size(85, 23);
             this.buttonSearchCopy.TabIndex = 8;
             this.buttonSearchCopy.Text = "Copier";
             this.buttonSearchCopy.UseVisualStyleBackColor = true;
             this.buttonSearchCopy.Click += new System.EventHandler(this.buttonSearchCopy_Click);
-            // 
-            // buttonSearchSuppr
-            // 
-            this.buttonSearchSuppr.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonSearchSuppr.Enabled = false;
-            this.buttonSearchSuppr.Location = new System.Drawing.Point(354, 93);
-            this.buttonSearchSuppr.Name = "buttonSearchSuppr";
-            this.buttonSearchSuppr.Size = new System.Drawing.Size(85, 23);
-            this.buttonSearchSuppr.TabIndex = 9;
-            this.buttonSearchSuppr.Text = "Supprimer";
-            this.buttonSearchSuppr.UseVisualStyleBackColor = true;
-            this.buttonSearchSuppr.Click += new System.EventHandler(this.buttonSearchSuppr_Click);
             // 
             // tableLayoutPanel7
             // 
@@ -934,6 +925,18 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // buttonSearchSuppr
+            // 
+            this.buttonSearchSuppr.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonSearchSuppr.Enabled = false;
+            this.buttonSearchSuppr.Location = new System.Drawing.Point(402, 93);
+            this.buttonSearchSuppr.Name = "buttonSearchSuppr";
+            this.buttonSearchSuppr.Size = new System.Drawing.Size(85, 23);
+            this.buttonSearchSuppr.TabIndex = 9;
+            this.buttonSearchSuppr.Text = "Supprimer";
+            this.buttonSearchSuppr.UseVisualStyleBackColor = true;
+            this.buttonSearchSuppr.Click += new System.EventHandler(this.buttonSearchSuppr_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1042,7 +1045,6 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button buttonSearchOpen;
         private System.Windows.Forms.Button buttonSearchCopy;
-        private System.Windows.Forms.Button buttonSearchSuppr;
         private System.Windows.Forms.CheckBox checkBoxAbove;
         private System.Windows.Forms.PictureBox pictureBoxLogo;
         private System.Windows.Forms.PictureBox pictureBox3;
@@ -1050,6 +1052,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel14;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonSearchSuppr;
 
 
 
