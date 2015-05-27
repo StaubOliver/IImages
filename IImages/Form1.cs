@@ -35,6 +35,8 @@ namespace IImages
         MongoDB.Driver.IMongoDatabase database;
         MongoDB.Driver.IMongoCollection<BsonDocument> iimages;
 
+        Bitmap logoIIMAGES;
+
         public Form1()
         {
             InitializeComponent();
@@ -49,7 +51,8 @@ namespace IImages
 
 
             status.Text = "Connecté";
-            
+
+            logoIIMAGES = new Bitmap("iimages.png");
             //refresh();
         }
 
@@ -74,6 +77,11 @@ namespace IImages
                 {
                     listBookmarks.Add(MongoDB.Bson.Serialization.BsonSerializer.Deserialize<bookmark>(book));
                 }
+            }
+
+            foreach (var book in listBookmarks)
+            {
+                comboBoxBookmarks.Items.Add(book.name);
             }
         }
 
@@ -114,7 +122,7 @@ namespace IImages
             }
         }
 
-        public async void refreshPesronnes()
+        public async void refreshPersonnes()
         {
 
             var tmpPersonnes = await iimages.Find(new BsonDocument()).Project(Builders<BsonDocument>.Projection.Include("personnes")).ToListAsync();
@@ -144,10 +152,10 @@ namespace IImages
             listPersonnes.Reverse();
 
             //affichage des tags
-            //comboBoxTags.Items.Clear();
+            comboBoxPersonnes.Items.Clear();
             foreach (tagsElt per in listPersonnes)
             {
-                //comboBoxTags.Items.Add(tag.tag + " - " + tag.count + " éléments");
+                comboBoxPersonnes.Items.Add(per.tag + " - " + per.count + " éléments");
             }
         }
 
@@ -173,9 +181,10 @@ namespace IImages
 
 
             //liste des tags dans la base
-            refreshBookmarks();
+            refreshTags();
 
-            
+            //listes des personnes dans la base
+            refreshPersonnes();
 
             //creation du filtre
             var builder = Builders<BsonDocument>.Filter;
@@ -311,11 +320,18 @@ namespace IImages
                                              }
                                              catch (Exception Ex)
                                              {
-                                                 newImg.date = DateTime.Now;
+                                                 newImg.date = File.GetLastWriteTime(fileName);
+                                                 status.Text = Ex.ToString();
+                                             }
+                                             DirectoryInfo info = new DirectoryInfo(Path.GetDirectoryName(newImg.path));
+                                             string currentDirectoryName = info.Name;
+                                             var tags = currentDirectoryName.Split(' ');
+                                             foreach (string s in tags)
+                                             {
+                                                 newImg.tags.Add(s);
                                              }
                                              ajout.Add(newImg);
                                              images.Add(newImg);
-
                                              //img.Dispose();
                                          });
 
@@ -616,8 +632,8 @@ namespace IImages
                 count = 0;
                 foreach (string str in searchSelection.First().personnes)
                 {
-                    richTextBoxSearchPersonnes.Lines[count] = str;
-                    count++;
+                    richTextBoxSearchPersonnes.AppendText(str + "\n");
+                    count += 1;
                 }
 
                 numericUpDownSearchEdit.Enabled = true;
@@ -948,7 +964,7 @@ namespace IImages
             richTextBoxSearchTags.Enabled = false;
             richTextBoxSearchTags.Lines = new string[] { "" };
             richTextBoxSearchPersonnes.Lines = new string[] { "" };
-            pictureBox2.Image = null;
+            pictureBox2.Image = logoIIMAGES;
         }
 
         private void checkBoxAbove_CheckedChanged(object sender, EventArgs e)
@@ -974,6 +990,12 @@ namespace IImages
         private void comboBoxTags_SelectedIndexChanged(object sender, EventArgs e)
         {
             var str = comboBoxTags.SelectedItem.ToString().Split('-');
+            textBoxSearch.Text += " " + str[0];
+        }
+
+        private void comboBoxPersonnes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var str = comboBoxPersonnes.SelectedItem.ToString().Split('-');
             textBoxSearch.Text += " " + str[0];
         }
 
