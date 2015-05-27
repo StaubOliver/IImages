@@ -27,6 +27,8 @@ namespace IImages
         List<image> search = new List<image>();
         List<image> searchSelection = new List<image>();
         List<tagsElt> listTags = new List<tagsElt>();
+        List<tagsElt> listPersonnes = new List<tagsElt>();
+        List<bookmark> listBookmarks = new List<bookmark>();
 
         //Accès à la base de données
         MongoClient client;
@@ -51,6 +53,104 @@ namespace IImages
             //refresh();
         }
 
+        public async void refreshBookmarks()
+        {
+            listBookmarks.Clear();
+
+            client = new MongoClient("mongodb://localhost:27017");
+            database = client.GetDatabase("iimages");
+            MongoDB.Driver.IMongoCollection<BsonDocument> bookmarks = database.GetCollection<BsonDocument>("bookmarks");
+
+            var filter = new BsonDocument();
+
+            //requete
+            var cursor = await bookmarks.FindAsync(filter);
+
+            //traitement des résultats
+            while (await cursor.MoveNextAsync())
+            {
+                var batch = cursor.Current;
+                foreach (var book in batch)
+                {
+                    listBookmarks.Add(MongoDB.Bson.Serialization.BsonSerializer.Deserialize<bookmark>(book));
+                }
+            }
+        }
+
+        public async void refreshTags()
+        {
+
+            var tmpTags = await iimages.Find(new BsonDocument()).Project(Builders<BsonDocument>.Projection.Include("tags")).ToListAsync();
+
+            listTags.Clear();
+            foreach (var document in tmpTags)
+            {
+                List<string> newTag = new List<string>();
+                newTag.AddRange((document["tags"].AsBsonArray.Select(p => p.AsString).ToList()));
+                if (newTag.Count() != 0)
+                {
+                    foreach (string s in newTag)
+                        if (listTags.FindAll(p => p.tag == s).Count() == 0)
+                        {
+                            var tmp = new tagsElt();
+                            tmp.tag = s;
+                            tmp.count = 1;
+                            listTags.Add(tmp);
+                        }
+                        else
+                        {
+                            listTags.FindAll(p => p.tag == s).First().count += 1;
+                        }
+                }
+            }
+            listTags = listTags.OrderBy(t => t.count).ToList();
+            listTags.Reverse();
+
+            //affichage des tags
+            comboBoxTags.Items.Clear();
+            foreach (tagsElt tag in listTags)
+            {
+                comboBoxTags.Items.Add(tag.tag + " - " + tag.count + " éléments");
+            }
+        }
+
+        public async void refreshPesronnes()
+        {
+
+            var tmpPersonnes = await iimages.Find(new BsonDocument()).Project(Builders<BsonDocument>.Projection.Include("personnes")).ToListAsync();
+
+            listPersonnes.Clear();
+            foreach (var document in tmpPersonnes)
+            {
+                List<string> newPersonnes = new List<string>();
+                newPersonnes.AddRange((document["personnes"].AsBsonArray.Select(p => p.AsString).ToList()));
+                if (newPersonnes.Count() != 0)
+                {
+                    foreach (string s in newPersonnes)
+                        if (listPersonnes.FindAll(p => p.tag == s).Count() == 0)
+                        {
+                            var tmp = new tagsElt();
+                            tmp.tag = s;
+                            tmp.count = 1;
+                            listPersonnes.Add(tmp);
+                        }
+                        else
+                        {
+                            listPersonnes.FindAll(p => p.tag == s).First().count += 1;
+                        }
+                }
+            }
+            listPersonnes = listPersonnes.OrderBy(t => t.count).ToList();
+            listPersonnes.Reverse();
+
+            //affichage des tags
+            //comboBoxTags.Items.Clear();
+            foreach (tagsElt per in listPersonnes)
+            {
+                //comboBoxTags.Items.Add(tag.tag + " - " + tag.count + " éléments");
+            }
+        }
+
         public async void refresh()
         {
             //Cleanning
@@ -63,7 +163,6 @@ namespace IImages
             listViewSearch.SelectedItems.Clear();
             disableEditing();
 
-
             client = new MongoClient("mongodb://localhost:27017");
             database = client.GetDatabase("iimages");
             iimages = database.GetCollection<BsonDocument>("iimages");
@@ -74,38 +173,7 @@ namespace IImages
 
 
             //liste des tags dans la base
-            var tmpTags = await iimages.Find(new BsonDocument()).Project(Builders<BsonDocument>.Projection.Include("tags")).ToListAsync();
-
-            listTags.Clear();
-            foreach (var document in tmpTags)
-            {
-                List<string> newTag = new List<string>();
-                newTag.AddRange((document["tags"].AsBsonArray.Select(p=>p.AsString).ToList()));
-                if (newTag.Count() != 0)
-                {
-                    foreach (string s in newTag)
-                    if (listTags.FindAll(p=>p.tag == s).Count() == 0)
-                    {
-                        var tmp = new tagsElt();
-                        tmp.tag = s;
-                        tmp.count = 1;
-                        listTags.Add(tmp);
-                    }
-                    else 
-                    {
-                        listTags.FindAll(p=>p.tag == s).First().count += 1;
-                    }
-                }
-            }
-            listTags =  listTags.OrderBy(t => t.count).ToList();
-            listTags.Reverse();
-
-            //affichage des tags
-            comboBoxTags.Items.Clear();
-            foreach (tagsElt tag in listTags)
-            {
-                comboBoxTags.Items.Add(tag.tag + " - " + tag.count + " éléments");
-            }
+            refreshBookmarks();
 
             
 

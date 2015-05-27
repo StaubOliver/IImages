@@ -70,8 +70,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.label9 = new System.Windows.Forms.Label();
-            this.numericUpDownSearch = new System.Windows.Forms.NumericUpDown();
             this.checkBoxAbove = new System.Windows.Forms.CheckBox();
+            this.numericUpDownSearch = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
@@ -603,36 +603,52 @@
             // 
             // tableLayoutPanel9
             // 
-            this.tableLayoutPanel9.ColumnCount = 2;
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel9.ColumnCount = 3;
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel9.Controls.Add(this.label9, 0, 0);
-            this.tableLayoutPanel9.Controls.Add(this.numericUpDownSearch, 0, 1);
-            this.tableLayoutPanel9.Controls.Add(this.checkBoxAbove, 1, 1);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxAbove, 2, 0);
+            this.tableLayoutPanel9.Controls.Add(this.numericUpDownSearch, 1, 0);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel9.Location = new System.Drawing.Point(969, 3);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
-            this.tableLayoutPanel9.RowCount = 2;
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel9.RowCount = 1;
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel9.Size = new System.Drawing.Size(238, 48);
             this.tableLayoutPanel9.TabIndex = 0;
             // 
             // label9
             // 
-            this.label9.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 5);
+            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label9.Location = new System.Drawing.Point(3, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(30, 13);
+            this.label9.Size = new System.Drawing.Size(53, 48);
             this.label9.TabIndex = 0;
             this.label9.Text = "Note";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkBoxAbove
+            // 
+            this.checkBoxAbove.AutoSize = true;
+            this.checkBoxAbove.Checked = true;
+            this.checkBoxAbove.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxAbove.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBoxAbove.Location = new System.Drawing.Point(157, 3);
+            this.checkBoxAbove.Name = "checkBoxAbove";
+            this.checkBoxAbove.Size = new System.Drawing.Size(75, 42);
+            this.checkBoxAbove.TabIndex = 2;
+            this.checkBoxAbove.Text = "Au-dessus";
+            this.checkBoxAbove.UseVisualStyleBackColor = true;
+            this.checkBoxAbove.CheckedChanged += new System.EventHandler(this.checkBoxAbove_CheckedChanged);
             // 
             // numericUpDownSearch
             // 
             this.numericUpDownSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDownSearch.Location = new System.Drawing.Point(3, 27);
+            this.numericUpDownSearch.Location = new System.Drawing.Point(62, 14);
+            this.numericUpDownSearch.Margin = new System.Windows.Forms.Padding(3, 14, 3, 3);
             this.numericUpDownSearch.Maximum = new decimal(new int[] {
             5,
             0,
@@ -647,20 +663,6 @@
             0,
             0});
             this.numericUpDownSearch.ValueChanged += new System.EventHandler(this.numericUpDownSearch_ValueChanged);
-            // 
-            // checkBoxAbove
-            // 
-            this.checkBoxAbove.AutoSize = true;
-            this.checkBoxAbove.Checked = true;
-            this.checkBoxAbove.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAbove.Dock = System.Windows.Forms.DockStyle.Top;
-            this.checkBoxAbove.Location = new System.Drawing.Point(122, 27);
-            this.checkBoxAbove.Name = "checkBoxAbove";
-            this.checkBoxAbove.Size = new System.Drawing.Size(113, 17);
-            this.checkBoxAbove.TabIndex = 2;
-            this.checkBoxAbove.Text = "Au-dessus";
-            this.checkBoxAbove.UseVisualStyleBackColor = true;
-            this.checkBoxAbove.CheckedChanged += new System.EventHandler(this.checkBoxAbove_CheckedChanged);
             // 
             // tableLayoutPanel2
             // 
@@ -689,11 +691,11 @@
             // 
             // tableLayoutPanel5
             // 
-            this.tableLayoutPanel5.ColumnCount = 1;
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel5.ColumnCount = 2;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
             this.tableLayoutPanel5.Controls.Add(this.label16, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.comboBoxTags, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.comboBoxTags, 1, 0);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(788, 3);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
@@ -705,22 +707,23 @@
             // 
             // label16
             // 
-            this.label16.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(3, 5);
+            this.label16.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label16.Location = new System.Drawing.Point(3, 0);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(31, 13);
+            this.label16.Size = new System.Drawing.Size(37, 24);
             this.label16.TabIndex = 0;
             this.label16.Text = "Tags";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // comboBoxTags
             // 
-            this.comboBoxTags.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.comboBoxTags.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTags.FormattingEnabled = true;
-            this.comboBoxTags.Location = new System.Drawing.Point(3, 27);
+            this.comboBoxTags.Location = new System.Drawing.Point(46, 3);
             this.comboBoxTags.Name = "comboBoxTags";
-            this.comboBoxTags.Size = new System.Drawing.Size(169, 21);
+            this.comboBoxTags.Size = new System.Drawing.Size(126, 21);
             this.comboBoxTags.TabIndex = 1;
             this.comboBoxTags.SelectedIndexChanged += new System.EventHandler(this.comboBoxTags_SelectedIndexChanged);
             // 
@@ -960,7 +963,7 @@
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(274, 30);
             this.label15.TabIndex = 10;
-            this.label15.Text = "s";
+            this.label15.Text = "Aucune photo sélectionnée";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBoxHist
