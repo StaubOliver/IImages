@@ -26,7 +26,7 @@ namespace IImages
         //Variables Search
         List<image> search = new List<image>();
         List<image> searchSelection = new List<image>();
-        List<string> listTags = new List<string>();
+        List<tagsElt> listTags = new List<tagsElt>();
 
         //Accès à la base de données
         MongoClient client;
@@ -68,21 +68,46 @@ namespace IImages
             database = client.GetDatabase("iimages");
             iimages = database.GetCollection<BsonDocument>("iimages");
 
-            //liste des tags
-           
+            //comptage des éléements de la base
+            long x = await iimages.CountAsync(new BsonDocument());
+            label5.Text = x.ToString() + " éléments dans le catalogue";
+
+
+            //liste des tags dans la base
             var tmpTags = await iimages.Find(new BsonDocument()).Project(Builders<BsonDocument>.Projection.Include("tags")).ToListAsync();
 
             listTags.Clear();
             foreach (var document in tmpTags)
             {
-                listTags.AddRange((document["tags"].AsBsonArray.Select(p=>p.AsString).ToList()));
+                List<string> newTag = new List<string>();
+                newTag.AddRange((document["tags"].AsBsonArray.Select(p=>p.AsString).ToList()));
+                if (newTag.Count() != 0)
+                {
+                    foreach (string s in newTag)
+                    if (listTags.FindAll(p=>p.tag == s).Count() == 0)
+                    {
+                        var tmp = new tagsElt();
+                        tmp.tag = s;
+                        tmp.count = 1;
+                        listTags.Add(tmp);
+                    }
+                    else 
+                    {
+                        listTags.FindAll(p=>p.tag == s).First().count += 1;
+                    }
+                }
+            }
+            listTags =  listTags.OrderBy(t => t.count).ToList();
+            listTags.Reverse();
+
+            //affichage des tags
+            comboBoxTags.Items.Clear();
+            foreach (tagsElt tag in listTags)
+            {
+                comboBoxTags.Items.Add(tag.tag + " - " + tag.count + " éléments");
             }
 
             
-
-            //comptage des éléements de la base
-            long x = await iimages.CountAsync(new BsonDocument());
-            label5.Text = x.ToString() + " éléments dans le catalogue";
 
             //creation du filtre
             var builder = Builders<BsonDocument>.Filter;
@@ -876,6 +901,12 @@ namespace IImages
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void comboBoxTags_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var str = comboBoxTags.SelectedItem.ToString().Split('-');
+            textBoxSearch.Text += " " + str[0];
         }
 
 
