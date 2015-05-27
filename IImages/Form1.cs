@@ -26,7 +26,7 @@ namespace IImages
         //Variables Search
         List<image> search = new List<image>();
         List<image> searchSelection = new List<image>();
-        BsonDocument currentFilter = new BsonDocument();
+        List<string> listTags = new List<string>();
 
         //Accès à la base de données
         MongoClient client;
@@ -43,6 +43,8 @@ namespace IImages
             tabControl1.SelectedIndex = 1;
             labelAjoutDate.Text = "";
             labelAjoutNom.Text = "";
+
+
 
             status.Text = "Connecté";
             
@@ -61,11 +63,24 @@ namespace IImages
             listViewSearch.SelectedItems.Clear();
             disableEditing();
 
-            //connection à la base
+
             client = new MongoClient("mongodb://localhost:27017");
             database = client.GetDatabase("iimages");
             iimages = database.GetCollection<BsonDocument>("iimages");
 
+            //liste des tags
+           
+            var tmpTags = await iimages.Find(new BsonDocument()).Project(Builders<BsonDocument>.Projection.Include("tags")).ToListAsync();
+
+            listTags.Clear();
+            foreach (var document in tmpTags)
+            {
+                listTags.AddRange((document["tags"].AsBsonArray.Select(p=>p.AsString).ToList()));
+            }
+
+            
+
+            //comptage des éléements de la base
             long x = await iimages.CountAsync(new BsonDocument());
             label5.Text = x.ToString() + " éléments dans le catalogue";
 
@@ -119,40 +134,6 @@ namespace IImages
                 filterRatings.Add(new BsonInt32((int)numericUpDownSearch.Value));
             }
 
-            var filter;
-
-            if ((filterTags.Count()==0) && (filterDates.Count()==0) && (checkBoxAbove.Checked))
-            {
-
-            }
-            else if ((filterTags.Count()==0) && (filterDates.Count()==0) && (!checkBoxAbove.Checked))
-            {
-
-            }
-            else if ((filterTags.Count()==0) && (filterDates.Count()!=0) && (checkBoxAbove.Checked))
-            {
-
-            }
-            else if ((filterTags.Count() == 0) && (filterDates.Count() != 0) && (!checkBoxAbove.Checked))
-            {
-
-            }
-            else if ((filterTags.Count() != 0) && (filterDates.Count() == 0) && (checkBoxAbove.Checked))
-            {
-
-            }
-            else if ((filterTags.Count() != 0) && (filterDates.Count() == 0) && (!checkBoxAbove.Checked))
-            {
-
-            }
-            else if ((filterTags.Count() != 0) && (filterDates.Count() != 0) && (checkBoxAbove.Checked))
-            {
-
-            }
-            else if ((filterTags.Count() != 0) && (filterDates.Count() != 0) && (!checkBoxAbove.Checked))
-            {
-
-            }
             var filter = builder.And(builder.In("rating",filterRatings),builder.In("tags",filterTags));
 
             //requete
@@ -789,7 +770,7 @@ namespace IImages
                 int length = richTextBoxSearchPersonnes.Lines.Length;
                 for (int i = 0; i < length; i++)
                 {
-                    searchSelection.First().personnes.Add(richTextBoxSearchPersonnes.Lines[i]);
+                    if (richTextBoxSearchPersonnes.Lines[i]!="") searchSelection.First().personnes.Add(richTextBoxSearchPersonnes.Lines[i]);
                 }
                 
                 //maj des tags
@@ -797,7 +778,7 @@ namespace IImages
                 length = richTextBoxSearchTags.Lines.Length;
                 for (int i = 0; i < length; i++)
                 {
-                    searchSelection.First().tags.Add(richTextBoxSearchTags.Lines[i]);
+                    if (richTextBoxSearchTags.Lines[i]!="") searchSelection.First().tags.Add(richTextBoxSearchTags.Lines[i]);
                 }
 
                 //maj de la note
@@ -885,6 +866,16 @@ namespace IImages
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
         {
             refresh();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
 
