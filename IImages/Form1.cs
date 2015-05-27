@@ -195,6 +195,7 @@ namespace IImages
             var words = textBoxSearch.Text.Split(' ');
             List<int> dates = new List<int>();
             List<string> tags = new List<string>();
+            List<string> personnes =  new List<string>();
             foreach (string w in words)
             {
                 //on regarde s'il y a une année
@@ -209,6 +210,7 @@ namespace IImages
                 else
                 {
                     tags.Add(w);
+                    personnes.Add(w);
                 }
             }
             var filterDates = new BsonArray();
@@ -221,6 +223,12 @@ namespace IImages
             foreach (string word in tags)
             {
                 filterTags.Add(new BsonString(word));
+            }
+
+            var filterPersonnes = new BsonArray();
+            foreach (string word in personnes)
+            {
+                filterPersonnes.Add(new BsonString(word));
             }
 
             var filterRatings = new BsonArray();
@@ -236,7 +244,7 @@ namespace IImages
                 filterRatings.Add(new BsonInt32((int)numericUpDownSearch.Value));
             }
 
-            var filter = builder.And(builder.In("rating",filterRatings),builder.In("tags",filterTags));
+            var filter = builder.And(builder.In("rating",filterRatings),builder.Or(builder.In("tags",filterTags),builder.In("personnes",filterPersonnes)));
 
             //requete
             var cursor = await iimages.FindAsync(filter);
@@ -258,6 +266,7 @@ namespace IImages
                 imageListSearch.Images.Add(im.path, im.thumb);
                 listViewSearch.Items.Add(im.path, Path.GetFileName(im.path), im.path);
             }
+            
             label14.Text = search.Count() + " résultats";
 
             if (search.Count() == 0) { label14.Text = "Pas de résultats pour cette recherche"; }
@@ -321,7 +330,7 @@ namespace IImages
                                              catch (Exception Ex)
                                              {
                                                  newImg.date = File.GetLastWriteTime(fileName);
-                                                 status.Text = Ex.ToString();
+                                                 //status.Text = Ex.ToString();
                                              }
                                              DirectoryInfo info = new DirectoryInfo(Path.GetDirectoryName(newImg.path));
                                              string currentDirectoryName = info.Name;
@@ -469,9 +478,10 @@ namespace IImages
                 count = 0;
                 foreach (string str in ajoutSelection.First().personnes)
                 {
-                    richTextBoxAjoutPersonnes.Lines[count] = str;
-                    count++;
+                    richTextBoxAjoutPersonnes.AppendText(str + "\n");
+                    count += 1;
                 }
+
 
                 numericUpDown1.Enabled = true;
                 richTextBoxAjoutTags.Enabled = true;
@@ -562,11 +572,26 @@ namespace IImages
                 int length = richTextBoxAjoutTags.Lines.Length;
                 for (int i = 0; i < length; i++)
                 {
-                    item.tags.Add(richTextBoxAjoutTags.Lines[i]);
+                    if (richTextBoxAjoutTags.Lines[i]!="") 
+                        item.tags.Add(richTextBoxAjoutTags.Lines[i]);
                 }
             }
         }
-        
+
+        private void richTextBoxAjoutPersonnes_Validating(object sender, CancelEventArgs e)
+        {
+            foreach (image item in ajoutSelection)
+            {
+                item.personnes.Clear();
+                int length = richTextBoxAjoutPersonnes.Lines.Length;
+                for (int i = 0; i < length; i++)
+                {
+                    if (richTextBoxAjoutPersonnes.Lines[i] != "") 
+                        item.personnes.Add(richTextBoxAjoutPersonnes.Lines[i]);
+                }
+            }
+        }
+
         //bouton annuler page ajout
         private void button3_Click(object sender, EventArgs e)
         {
@@ -964,7 +989,7 @@ namespace IImages
             richTextBoxSearchTags.Enabled = false;
             richTextBoxSearchTags.Lines = new string[] { "" };
             richTextBoxSearchPersonnes.Lines = new string[] { "" };
-            pictureBox2.Image = logoIIMAGES;
+            pictureBox2.Image = null ;
         }
 
         private void checkBoxAbove_CheckedChanged(object sender, EventArgs e)
@@ -998,6 +1023,8 @@ namespace IImages
             var str = comboBoxPersonnes.SelectedItem.ToString().Split('-');
             textBoxSearch.Text += " " + str[0];
         }
+
+        
 
 
     }
