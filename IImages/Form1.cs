@@ -372,8 +372,8 @@ namespace IImages
                 labelAjoutDate.Text = ajoutSelection.First().date.ToString();
                 numericUpDown1.Value = ajoutSelection.First().rating;
 
-                richTextBoxAjoutPersonnes.Lines = new string[] {""};
-                richTextBoxAjoutTags.Lines = new string[] { "" };
+                richTextBoxAjoutPersonnes.Lines = new string[] {};
+                richTextBoxAjoutTags.Lines = new string[] { };
 
               
                 int count = 0;
