@@ -118,7 +118,41 @@ namespace IImages
             {
                 filterRatings.Add(new BsonInt32((int)numericUpDownSearch.Value));
             }
-            
+
+            var filter;
+
+            if ((filterTags.Count()==0) && (filterDates.Count()==0) && (checkBoxAbove.Checked))
+            {
+
+            }
+            else if ((filterTags.Count()==0) && (filterDates.Count()==0) && (!checkBoxAbove.Checked))
+            {
+
+            }
+            else if ((filterTags.Count()==0) && (filterDates.Count()!=0) && (checkBoxAbove.Checked))
+            {
+
+            }
+            else if ((filterTags.Count() == 0) && (filterDates.Count() != 0) && (!checkBoxAbove.Checked))
+            {
+
+            }
+            else if ((filterTags.Count() != 0) && (filterDates.Count() == 0) && (checkBoxAbove.Checked))
+            {
+
+            }
+            else if ((filterTags.Count() != 0) && (filterDates.Count() == 0) && (!checkBoxAbove.Checked))
+            {
+
+            }
+            else if ((filterTags.Count() != 0) && (filterDates.Count() != 0) && (checkBoxAbove.Checked))
+            {
+
+            }
+            else if ((filterTags.Count() != 0) && (filterDates.Count() != 0) && (!checkBoxAbove.Checked))
+            {
+
+            }
             var filter = builder.And(builder.In("rating",filterRatings),builder.In("tags",filterTags));
 
             //requete
