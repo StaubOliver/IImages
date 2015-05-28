@@ -10,4 +10,7 @@ Le but de ce projet est de proposer une interface permettant de retrouver plus f
 
 L'application utilise le framework .NET v4.5 est écrite en C# et s'appuie sur une base de données NoSQL MongoDB 
 
-Pour pouvoir utiliser l'application, il faut d'abord lancer MongoDB en Invite de Commande.
+Pour pouvoir utiliser l'application, il faut d'abord lancer MongoDB en Invite de Commande:
+
+` "C:\Program Files\MongoDB\Server\3.0\bin\mongod.exe"
+`
