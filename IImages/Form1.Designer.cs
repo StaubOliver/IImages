@@ -424,6 +424,7 @@
             this.label17.TabIndex = 0;
             this.label17.Text = "Bookmark";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label17.Visible = false;
             // 
             // comboBoxBookmarks
             // 
@@ -433,6 +434,7 @@
             this.comboBoxBookmarks.Name = "comboBoxBookmarks";
             this.comboBoxBookmarks.Size = new System.Drawing.Size(126, 21);
             this.comboBoxBookmarks.TabIndex = 1;
+            this.comboBoxBookmarks.Visible = false;
             // 
             // tableLayoutPanel10
             // 
